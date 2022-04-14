@@ -11,7 +11,7 @@ library(broom.helpers)
 library(GGally)
 
 #
-#setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression Models/Work4")
+setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression Models/Work4")
 
 print(load("AdvRegr_4_nels.RData"))
 
@@ -31,11 +31,15 @@ round(prop.table(with(nels, table(fa.educ, useNA = "ifany")))*100,2)
 #College -> More 4
 
 ### Data frame for loglinear modelling
-fit1 <- glm(ses ~ fa.educ , family = poisson, data = nels)  
 (qq1 <- as.data.frame(tab1, responseName = "N"))
-fit1 <- glm(N ~ ses + fa.educ + ses:fa.educ, family = poisson, data = qq1)  
-summary(fit1)
+regm1 <- multinom(ses ~ fa.educ,family=poisson, data = nels)
 
+summary(regm1)
+odds.ratio(regm1)
+ggcoef_multinom(
+  regm1,
+  exponentiate = TRUE
+)
 chisq.test(tab1)
 #p-values very low. -> Dependence
 
@@ -85,3 +89,18 @@ ggcoef_multinom(
 library(ggeffects)
 plot(ggeffect(regm3, "region"))
 
+###part 4###
+#socio-economic MEDIAN status of the family with the achieved level of education of the father.
+#+region + fa.wrk
+with(nels,table(ses,sesmed))
+#Below med. -> 1 & 2
+#Over med. -> 3& 4
+
+regm4 <- multinom(sesmed ~ fa.educ +region+fa.wrk ,family=poisson, data = nels)
+summary(regm4)
+odds.ratio(regm4)
+
+###part 5###all
+regm5 <- multinom(sesmed ~parents+foreign+fa.educ+mo.educ+region+fa.wrk+mo.wrk,family=poisson, data = nels)
+summary(regm5)
+step(regm5)
