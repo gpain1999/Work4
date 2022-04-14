@@ -44,6 +44,10 @@ summary(fit3_bis)
 fit4_bis = glm(N~ses , family = poisson, data = qq1)
 summary(fit4_bis)
 
+fit5_bis <- glm(N ~ (ses + fa.educ)^2, family = poisson, data = qq1)
+summary(fit5_bis)
+
+anova(fit5_bis,fit3_bis)
 
 ###part 2###
 #socio-economic status of the family with the achieved level of education of the father.
