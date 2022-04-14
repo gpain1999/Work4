@@ -1,5 +1,5 @@
 ###intro###
-efezifgzi
+
 #
 library("colorspace")
 library("xtable")
@@ -7,6 +7,8 @@ library(MASS)
 library(questionr)
 library(nnet)
 library(broom.helpers)
+library(GGally)
+
 #
 setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression Models/Work4")
 
@@ -28,10 +30,19 @@ round(prop.table(with(nels, table(fa.educ, useNA = "ifany")))*100,2)
 #College -> More 4
 
 ### Data frame for loglinear modelling
-(qq1 <- as.data.frame(tab1, responseName = "N"))
-fit1 <- glm(N ~ ses + fa.educ + ses:fa.educ, family = poisson, data = qq1)  
+fit1 <- glm(ses ~ fa.educ , family = poisson, data = nels)  
 
+chisq.test(tab1)
+#p-values very low. -> Dependence
 
+mosaicplot(tab1, main = "Mosaic Plot",
+           xlab = "Socioeconomic status",
+           ylab = "Father Education",
+           las = 1,
+           border = "yellow",
+           shade = TRUE)
+#blue : over-representation
+#red : under-representation
 
 ###part 2###
 #socio-economic status of the family with the achieved level of education of the father.
@@ -62,7 +73,6 @@ summary(fitp2.3)
 regm3 <- multinom(ses ~ fa.educ +region+fa.wrk ,family=poisson, data = nels)
 summary(regm3)
 odds.ratio(regm3)
-
 ggcoef_multinom(
   regm3,
   exponentiate = TRUE
