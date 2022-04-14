@@ -32,7 +32,17 @@ round(prop.table(with(nels, table(fa.educ, useNA = "ifany")))*100,2)
 fit1 <- glm(N ~ ses + fa.educ + ses:fa.educ, family = poisson, data = qq1)  
 summary(fit1)
 
-fit1_bis = glm(N)
+fit1_bis = glm(N~fa.educ + ses:fa.educ, family = poisson, data = qq1)
+summary(fit1_bis)
+
+fit2_bis = glm(N~fa.educ , family = poisson, data = qq1)
+summary(fit2_bis)
+
+fit3_bis = glm(N~ses + ses:fa.educ, family = poisson, data = qq1)
+summary(fit3_bis)
+
+fit4_bis = glm(N~ses , family = poisson, data = qq1)
+summary(fit4_bis)
 
 
 ###part 2###

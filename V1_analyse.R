@@ -1,5 +1,5 @@
 ###intro###
-
+rm(list=ls())
 #
 library("colorspace")
 library("xtable")
@@ -8,7 +8,7 @@ library(questionr)
 library(nnet)
 library(broom.helpers)
 #
-setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression Models/Work4")
+#setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression Models/Work4")
 
 print(load("AdvRegr_4_nels.RData"))
 
@@ -32,7 +32,6 @@ round(prop.table(with(nels, table(fa.educ, useNA = "ifany")))*100,2)
 fit1 <- glm(N ~ ses + fa.educ + ses:fa.educ, family = poisson, data = qq1)  
 summary(fit1)
 
-fit1_bis = glm(N)
 
 
 ###part 2###
