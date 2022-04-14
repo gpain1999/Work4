@@ -1,9 +1,5 @@
 ###intro###
-<<<<<<< HEAD
 
-=======
-rm(list=ls())
->>>>>>> bc06328b0d0512642d3a689feed0d16708a1d2a8
 #
 library("colorspace")
 library("xtable")
@@ -11,10 +7,8 @@ library(MASS)
 library(questionr)
 library(nnet)
 library(broom.helpers)
-library(GGally)
-
 #
-#setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression Models/Work4")
+setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression Models/Work4")
 
 print(load("AdvRegr_4_nels.RData"))
 
@@ -34,25 +28,26 @@ round(prop.table(with(nels, table(fa.educ, useNA = "ifany")))*100,2)
 #College -> More 4
 
 ### Data frame for loglinear modelling
-<<<<<<< HEAD
-fit1 <- glm(ses ~ fa.educ , family = poisson, data = nels)  
-=======
 (qq1 <- as.data.frame(tab1, responseName = "N"))
 fit1 <- glm(N ~ ses + fa.educ + ses:fa.educ, family = poisson, data = qq1)  
 summary(fit1)
->>>>>>> bc06328b0d0512642d3a689feed0d16708a1d2a8
 
-chisq.test(tab1)
-#p-values very low. -> Dependence
+fit1_bis = glm(N~fa.educ + ses:fa.educ, family = poisson, data = qq1)
+summary(fit1_bis)
 
-mosaicplot(tab1, main = "Mosaic Plot",
-           xlab = "Socioeconomic status",
-           ylab = "Father Education",
-           las = 1,
-           border = "yellow",
-           shade = TRUE)
-#blue : over-representation
-#red : under-representation
+fit2_bis = glm(N~fa.educ , family = poisson, data = qq1)
+summary(fit2_bis)
+
+fit3_bis = glm(N~ses + ses:fa.educ, family = poisson, data = qq1)
+summary(fit3_bis)
+
+fit4_bis = glm(N~ses , family = poisson, data = qq1)
+summary(fit4_bis)
+
+fit5_bis <- glm(N ~ (ses + fa.educ)^2, family = poisson, data = qq1)
+summary(fit5_bis)
+
+anova(fit5_bis,fit3_bis)
 
 ###part 2###
 #socio-economic status of the family with the achieved level of education of the father.
@@ -83,6 +78,7 @@ summary(fitp2.3)
 regm3 <- multinom(ses ~ fa.educ +region+fa.wrk ,family=poisson, data = nels)
 summary(regm3)
 odds.ratio(regm3)
+
 ggcoef_multinom(
   regm3,
   exponentiate = TRUE
