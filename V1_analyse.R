@@ -1,9 +1,6 @@
 ###intro###
-<<<<<<< HEAD
 
-=======
 rm(list=ls())
->>>>>>> bc06328b0d0512642d3a689feed0d16708a1d2a8
 #
 library("colorspace")
 library("xtable")
@@ -34,13 +31,10 @@ round(prop.table(with(nels, table(fa.educ, useNA = "ifany")))*100,2)
 #College -> More 4
 
 ### Data frame for loglinear modelling
-<<<<<<< HEAD
 fit1 <- glm(ses ~ fa.educ , family = poisson, data = nels)  
-=======
 (qq1 <- as.data.frame(tab1, responseName = "N"))
 fit1 <- glm(N ~ ses + fa.educ + ses:fa.educ, family = poisson, data = qq1)  
 summary(fit1)
->>>>>>> bc06328b0d0512642d3a689feed0d16708a1d2a8
 
 chisq.test(tab1)
 #p-values very low. -> Dependence
