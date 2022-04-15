@@ -8,8 +8,8 @@ library(questionr)
 library(nnet)
 library(broom.helpers)
 #
-setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression Models/Work4")
-
+#setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression Models/Work4")
+rm(list=ls())
 print(load("AdvRegr_4_nels.RData"))
 
 ###part 1###
@@ -26,8 +26,11 @@ round(prop.table(with(nels, table(fa.educ, useNA = "ifany")))*100,2)
 #Elementary -> more 1 & 2
 #High -> More 2 & 3
 #College -> More 4
-
+sum(is.na(nels$ses))
 ### Data frame for loglinear modelling
+fit1 <- glm(ses~fa.educ, family = poisson, data = nels)
+summary(fit1)
+
 (qq1 <- as.data.frame(tab1, responseName = "N"))
 fit1 <- glm(N ~ ses + fa.educ + ses:fa.educ, family = poisson, data = qq1)  
 summary(fit1)
@@ -66,6 +69,8 @@ round(prop.table(with(nels, table(region, useNA = "ifany")))*100,2)
 fitp2.1 <- glm(N ~ ses + fa.educ + region, family = poisson, data = qq2)  
 fitp2.2 <- glm(N ~ (ses:fa.educ)+(ses:region)+(fa.educ:region), family = poisson, data = qq2)
 fitp2.3 <- glm(N ~ (ses:fa.educ:region), family = poisson, data = qq2)
+
+fit2 = glm(ses~fa.educ+region, family = poisson, data=nels)
 
 summary(fitp2.1)
 summary(fitp2.2)
