@@ -120,6 +120,14 @@ sort(round(fitp2.2$coefficients,2))
 #ses2:fa.educHigh:regionMidwest
 
 
+mosaicplot(tab2, main = "Mosaic Plot",
+           xlab = "Socioeconomic status",
+           ylab = "Father Education",
+           las = 1,
+           border = "yellow",
+           shade = TRUE)
+
+
 
 ###part 3###
 #socio-economic status of the family with the achieved level of education of the father.
@@ -165,6 +173,14 @@ ggcoef_multinom(
 
 library(ggeffects)
 plot(ggeffect(regm3, "region"))
+
+mosaicplot(tab3, main = "Mosaic Plot",
+           xlab = "Socioeconomic status",
+           ylab = "Father Education",
+           las = 1,
+           border = "yellow",
+           shade = TRUE)
+
 
 ###part 4###
 #socio-economic MEDIAN status of the family with the achieved level of education of the father.
