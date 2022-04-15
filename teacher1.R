@@ -5,6 +5,7 @@ setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression 
 library("colorspace")
 library("xtable")
 #
+rm(list=ls())
 print(load("AdvRegr_4_nels.RData"))
 
 
@@ -286,3 +287,4 @@ pchisq(0, df = 0, lower.tail = FALSE)
 
 #
 gof(fit0)    ## Test of independence again
+
