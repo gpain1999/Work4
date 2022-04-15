@@ -52,6 +52,23 @@ mosaicplot(tab1, main = "Mosaic Plot",
 #blue : over-representation
 #red : under-representation
 
+
+##interpretation
+
+fit1 <- glm(N ~ ses + fa.educ + ses:fa.educ, family = poisson, data = qq1)  
+
+summary(fit1)
+#Do not interpret p-values.
+sort(round(fit1$coefficients,2))
+
+#interprete extreme values
+
+#fa.educCollege under-representation
+#ses4 under-representation
+#fa.educCollege & ses4 in same time -> over-representaion in comparaison of alone 
+#same for fa.educCollege & ses3
+
+
 ###part 2###
 #socio-economic status of the family with the achieved level of education of the father.
 #+region
@@ -73,6 +90,22 @@ fitp2.3 <- glm(N ~ (ses:fa.educ:region), family = poisson, data = qq2)
 summary(fitp2.1)
 summary(fitp2.2)
 summary(fitp2.3)
+
+#explain
+
+#fitp2.1
+sort(round(fitp2.1$coefficients,2))
+
+#under-representaion : regionWest ses2 
+#uper-representation : fa.educHigh
+
+#fitp2.2
+sort(round(fitp2.2$coefficients,2))
+
+#under-representaion : ses4:fa.educElementary ses1:fa.educCollege # educElementary and educCollege 
+#uper-representation : ses2:regionSouth ses1:regionSouth ##ALL regionSouth
+
+
 
 ###part 3###
 #socio-economic status of the family with the achieved level of education of the father.
