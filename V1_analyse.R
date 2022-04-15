@@ -120,9 +120,40 @@ sort(round(fitp2.2$coefficients,2))
 #ses2:fa.educHigh:regionMidwest
 
 
+
 ###part 3###
 #socio-economic status of the family with the achieved level of education of the father.
 #+region + fa.wrk
+### Contingency table
+(tab3 <- with(nels, table(ses, fa.educ,region,fa.wrk)))
+(ptab3 <- round(prop.table(tab3, margin = 2) * 100, 1))
+
+(qq3 <- as.data.frame(tab3, responseName = "N"))
+fitp3.1 <- glm(N ~ ses + fa.educ + region+fa.wrk, family = poisson, data = qq3)  
+fitp3.2 <- glm(N ~ (ses:fa.educ:region:fa.wrk), family = poisson, data = qq3)
+
+####eplain result
+#fitp3.1
+sort(round(fitp3.1$coefficients,2))
+#under-representation : fa.wrkNot_working & regionWest
+#uper representation : fa.educCollege & fa.educHigh
+
+#fitp3.2
+sort(round(fitp3.2$coefficients,2))
+#under-representation : 
+
+#ses4:fa.educElementary:regionMidwest:fa.wrkNot_working
+#ses4:fa.educElementary:regionSouth:fa.wrkNot_working
+
+#uper-representation : 
+
+#ses4:fa.educCollege:regionSouth:fa.wrkWorking
+#ses4:fa.educCollege:regionMidwest:fa.wrkWorking
+#ses2:fa.educHigh:regionMidwest:fa.wrkWorking
+
+
+
+#uper representation : fa.educCollege & fa.educHigh
 
 regm3 <- multinom(ses ~ fa.educ +region+fa.wrk ,family=poisson, data = nels)
 summary(regm3)
