@@ -99,12 +99,25 @@ sort(round(fitp2.1$coefficients,2))
 #under-representaion : regionWest ses2 
 #uper-representation : fa.educHigh
 
+
+
 #fitp2.2
-sort(round(fitp2.2$coefficients,2))
+sort(round(fitp2.3$coefficients,2))
 
 #under-representaion : ses4:fa.educElementary ses1:fa.educCollege # educElementary and educCollege 
 #uper-representation : ses2:regionSouth ses1:regionSouth ##ALL regionSouth
 
+#fitp2.3
+sort(round(fitp2.2$coefficients,2))
+
+#under-representaion : 
+
+#ses4:fa.educElementary:(regionWest + regionNortheast + regionMidwest)
+#ses1:fa.educCollege:(regionWest+regionNortheast)
+
+#uper-representation : 
+#ses4:fa.educCollege:(regionSouth+regionMidwest+regionNortheast)
+#ses2:fa.educHigh:regionMidwest
 
 
 ###part 3###
