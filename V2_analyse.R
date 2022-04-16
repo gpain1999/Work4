@@ -65,17 +65,48 @@ anova(fit1, fit1.1, test = "Rao")
 with(nels, table(ses,     useNA = "ifany"))
 with(nels, table(fa.educ,     useNA = "ifany"))
 
-##coeff##
-sort(round(fit1$coefficients,2))
+### Coef interpretation
+ce1 <- coef(fit1)
 
-##ses4 :
-#We recall that "ses4" is strongly under-represented when 
-#crossed with fa.educ High and Elementary but very over-represented with College.
+sort(round(exp(coef(fit1)[-1]), 2))   
+#####Coefficients of the variable fa.educ#######
 
-#We can see the same with coefficians.
-#ses4 alone : -3.57 
-#this value rises when cross-referenced with fa.educHigh (+3.15) and more with fa.educCollege.
+### fa.educ = Elementary
+ce1[paste("ses", 2:4, sep = "")]
+(oddsElem <- exp(ce1[paste("ses", 2:4, sep = "")]))
+#The values of Elementary are found in the classic "ses" variables. 
 
-#same for fa.educ : College 
-#uder-représentation for ses1,2,3 and over representation for ses4. 
-#This is shown in the coefficients. 
+#
+### fa.educ = High
+ce1[paste("ses", 2:4, sep = "")]
+ce1[paste("ses", 2:4, ":fa.educHigh", sep = "")]
+(oddsHigh <- exp(ce1[paste("ses", 2:4, sep = "")] + 
+                   ce1[paste("ses", 2:4, ":fa.educHigh", sep = "")]))
+#
+### fa.educ = College
+ce1[paste("ses", 2:4, sep = "")]
+ce1[paste("ses", 2:4, ":fa.educCollege", sep = "")]
+(oddsColl <- exp(ce1[paste("ses", 2:4, sep = "")] + 
+                   ce1[paste("ses", 2:4, ":fa.educCollege", sep = "")]))
+
+#####Coefficients of the variable ses#######
+
+### ses = 1
+(odds1 <- exp(ce1[paste("fa.educ", c("High", "College"), sep = "")]))
+#
+### ses = 2
+(odds2 <- exp(ce1[paste("fa.educ", c("High", "College"), sep = "")] + 
+                be1[paste("ses2:fa.educ", c("High", "College"), sep = "")]))
+#
+### ses = 3
+(odds3 <- exp(ce1[paste("fa.educ", c("High", "College"), sep = "")] + 
+                be1[paste("ses3:fa.educ", c("High", "College"), sep = "")]))
+#
+### ses = 4
+(odds4 <- exp(ce1[paste("fa.educ", c("High", "College"), sep = "")] + 
+                be1[paste("ses4:fa.educ", c("High", "College"), sep = "")]))
+
+#No values for Ellementary as it is present in the constant. 
+#These are coefficients for the transition from one statue to another.
+
+### ODDS RATIOS of coeff
