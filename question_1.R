@@ -110,3 +110,14 @@ ce1[paste("ses", 2:4, ":fa.educCollege", sep = "")]
 #These are coefficients for the transition from one statue to another.
 
 ### ODDS RATIOS of coeff
+
+
+### -----------------------------------------------------------------------------
+exp(ce1[grep(":fa.educ", names(ce1))])
+
+
+
+### ------------------------------------------------------------------------------
+exp(ce1[grep(":fa.educCollege", names(ce1))] - ce1[grep(":fa.educHigh", names(ce1))])
+
+
