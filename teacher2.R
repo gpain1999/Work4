@@ -1,6 +1,6 @@
 ### Initial operations
 ### ++++++++++++++++++++++++++++++++++++++++++++
-setwd("/home/komarek/teach/mff_2020/nmst432_AdvRegr/Problem_4/")
+#setwd("/home/komarek/teach/mff_2020/nmst432_AdvRegr/Problem_4/")
 #
 library("colorspace")
 library("xtable")
@@ -230,3 +230,4 @@ min(Return1[, "Pr(>Chi)"], na.rm = TRUE)
 m3 <- update(mTwoWay, paste(". ~ . + ", paste(Keep1, collapse = "+")))
 gof(m3)
 anova(m3, m1, test = "LRT")
+

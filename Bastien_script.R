@@ -1,94 +1,53 @@
 ###intro###
 
-#
 library("colorspace")
 library("xtable")
 library(MASS)
 library(questionr)
 library(nnet)
 library(broom.helpers)
+
 #
-#setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression Models/Work4")
 rm(list=ls())
 print(load("AdvRegr_4_nels.RData"))
 
-###part 1###
-#socio-economic status of the family with the achieved level of education of the father.
 
-#repartition %
-round(prop.table(with(nels, table(fa.educ, useNA = "ifany")))*100,2)
+###FIRST PART : ses vs fa.educ
 
-### Contingency table
-(tab1 <- with(nels, table(ses, fa.educ)))
-(ptab1 <- round(prop.table(tab1, margin = 2) * 100, 1))
+(ses_fa <- with(nels, table(ses, fa.educ)))
+plot(ses ~ fa.educ, data = nels, col = rainbow_hcl(4), 
+     main = "SES by father's education")
+chisq.test(ses_fa)
 
-#First observation : 
-#Elementary -> more 1 & 2
-#High -> More 2 & 3
-#College -> More 4
-sum(is.na(nels$ses))
-### Data frame for loglinear modelling
-fit1 <- glm(ses~fa.educ, family = poisson, data = nels)
-summary(fit1)
+data_1 = as.data.frame(ses_fa, responseName = "N")
+summary(data_1)
 
-(qq1 <- as.data.frame(tab1, responseName = "N"))
-fit1 <- glm(N ~ ses + fa.educ + ses:fa.educ, family = poisson, data = qq1)  
-summary(fit1)
+fit_ses_fa1 = glm(N ~ (ses+fa.educ)^2, data = data_1, family = poisson)
+summary(fit_ses_fa1)
 
-fit1_bis = glm(N~fa.educ + ses:fa.educ, family = poisson, data = qq1)
-summary(fit1_bis)
+fit_ses_fa2 <- glm(N~ses+fa.educ, family = poisson, data=data_1)
+summary(fit_ses_fa2)
 
-fit2_bis = glm(N~fa.educ , family = poisson, data = qq1)
-summary(fit2_bis)
+anova(fit_ses_fa1,fit_ses_fa2)
 
-fit3_bis = glm(N~ses + ses:fa.educ, family = poisson, data = qq1)
-summary(fit3_bis)
+drop1(fit_ses_fa1,test="Chisq")
+drop1(fit_ses_fa2,test="Chisq")
 
-fit4_bis = glm(N~ses , family = poisson, data = qq1)
-summary(fit4_bis)
+# Let's investigate the effect of fa.educ as well as the interaction between ses3 and fa.educ
 
-fit5_bis <- glm(N ~ (ses + fa.educ)^2, family = poisson, data = qq1)
-summary(fit5_bis)
+(coefs1 = coef(fit_ses_fa1))
 
-anova(fit5_bis,fit3_bis)
+## fa.educ 
 
-###part 2###
-#socio-economic status of the family with the achieved level of education of the father.
-#+region
+### Elementary 
+(oddsElem <- exp(coefs1[paste("fa.educ", 2:4, sep = "")]))
 
-#repartition %
-round(prop.table(with(nels, table(region, useNA = "ifany")))*100,2)
-#South is bigger
+### fa.educ = High
+(oddsHigh <- exp(coefs1[paste("ses", 2:4, sep = "")] + 
+                   coefs1[paste("ses", 2:4, ":fa.educHigh", sep = "")]))
 
-### Contingency table
-(tab2 <- with(nels, table(ses, fa.educ,region)))
-(ptab2 <- round(prop.table(tab2, margin = 2) * 100, 1))
+### College
+(oddsColl <- exp(coefs1[paste("ses", 2:4, sep = "")] + 
+                   coefs1[paste("ses", 2:4, ":fa.educCollege", sep = "")]))
 
-### Data frame for loglinear modelling
-(qq2 <- as.data.frame(tab2, responseName = "N"))
-fitp2.1 <- glm(N ~ ses + fa.educ + region, family = poisson, data = qq2)  
-fitp2.2 <- glm(N ~ (ses:fa.educ)+(ses:region)+(fa.educ:region), family = poisson, data = qq2)
-fitp2.3 <- glm(N ~ (ses:fa.educ:region), family = poisson, data = qq2)
-
-fit2 = glm(ses~fa.educ+region, family = poisson, data=nels)
-
-summary(fitp2.1)
-summary(fitp2.2)
-summary(fitp2.3)
-
-###part 3###
-#socio-economic status of the family with the achieved level of education of the father.
-#+region + fa.wrk
-
-regm3 <- multinom(ses ~ fa.educ +region+fa.wrk ,family=poisson, data = nels)
-summary(regm3)
-odds.ratio(regm3)
-
-ggcoef_multinom(
-  regm3,
-  exponentiate = TRUE
-)
-
-library(ggeffects)
-plot(ggeffect(regm3, "region"))
-
+## ses3 on fa.educ
