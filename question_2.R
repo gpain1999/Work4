@@ -25,3 +25,9 @@ qq2 <- as.data.frame(tab2, responseName = "N")
 ### Saturated model
 fit2 <- glm(N ~ (ses + fa.educ + region)^3, family = poisson, data = qq2)
 summary(fit2)
+
+
+### Coefficients
+(ce2 <- coef(fit2))
+pv2 <- summary(fit2)$coefficients[, "Pr(>|z|)"]
+(pv2 <- round(pv2, 3))
