@@ -50,47 +50,51 @@ coef_exp_1 # exponentiated coefficients
 #
 ### fa.educ = Elementary
 be1[paste("ses", 2:4, sep = "")]
-(oddsElem <- exp(be1[paste("ses", 2:4, sep = "")]))
+(oddsElem <- round(exp(be1[paste("ses", 2:4, sep = "")]),2))
 #
 ### fa.educ = High
 be1[paste("ses", 2:4, sep = "")]
 be1[paste("ses", 2:4, ":fa.educHigh", sep = "")]
-(oddsHigh <- exp(be1[paste("ses", 2:4, sep = "")] + 
-                   be1[paste("ses", 2:4, ":fa.educHigh", sep = "")]))
+(oddsHigh <- round(exp(be1[paste("ses", 2:4, sep = "")] + 
+                   be1[paste("ses", 2:4, ":fa.educHigh", sep = "")]),2))
 #
 ### fa.educ = College
 be1[paste("ses", 2:4, sep = "")]
 be1[paste("ses", 2:4, ":fa.educCollege", sep = "")]
-(oddsColl <- exp(be1[paste("ses", 2:4, sep = "")] + 
-                   be1[paste("ses", 2:4, ":fa.educCollege", sep = "")]))
+(oddsColl <- round(exp(be1[paste("ses", 2:4, sep = "")] + 
+                   be1[paste("ses", 2:4, ":fa.educCollege", sep = "")]),2))
 
 ### All in one table
 ODDSbetterSES <- data.frame(Elementary = oddsElem, High = oddsHigh, 
                             College = oddsColl)
 print(ODDSbetterSES)
 
+print(xtable(ODDSbetterSES, digits = c(0, 1, 1, 1)), floating = FALSE)
+
 ### ODDS on better education (compared to fa.educ = Elementary)
 ### given family SES
 ### -----------------------------------------------------------------------
 #
 ### ses = 1
-(odds1 <- exp(be1[paste("fa.educ", c("High", "College"), sep = "")]))
+(odds1 <- round(exp(be1[paste("fa.educ", c("High", "College"), sep = "")]),2))
 #
 ### ses = 2
-(odds2 <- exp(be1[paste("fa.educ", c("High", "College"), sep = "")] + 
-                be1[paste("ses2:fa.educ", c("High", "College"), sep = "")]))
+(odds2 <- round(exp(be1[paste("fa.educ", c("High", "College"), sep = "")] + 
+                be1[paste("ses2:fa.educ", c("High", "College"), sep = "")]),2))
 #
 ### ses = 3
-(odds3 <- exp(be1[paste("fa.educ", c("High", "College"), sep = "")] + 
-                be1[paste("ses3:fa.educ", c("High", "College"), sep = "")]))
+(odds3 <- round(exp(be1[paste("fa.educ", c("High", "College"), sep = "")] + 
+                be1[paste("ses3:fa.educ", c("High", "College"), sep = "")]),2))
 #
 ### ses = 4
-(odds4 <- exp(be1[paste("fa.educ", c("High", "College"), sep = "")] + 
-                be1[paste("ses4:fa.educ", c("High", "College"), sep = "")]))
+(odds4 <- round(exp(be1[paste("fa.educ", c("High", "College"), sep = "")] + 
+                be1[paste("ses4:fa.educ", c("High", "College"), sep = "")]),2))
 
 ### All in one table
 ODDShigherEduc <- data.frame(ses1 = odds1, ses2 = odds2, ses3 = odds3, ses4 = odds4)
 print(ODDShigherEduc)
+
+print(xtable(ODDShigherEduc, digits = c(0, 1, 1, 1,1)), floating = FALSE)
 
 ### ODDS RATIOS (ratios of odds on higher ses compared to ses = 1
 ###   when comparing higher levels of education with Elementary one)
@@ -105,4 +109,10 @@ exp(be1[grep(":fa.educ", names(be1))])
 ###
 ### = ODDS RATIOS (ratios of odds on College education compared to High education 
 ###   when comparing higher ses with ses = 1
-exp(be1[grep(":fa.educCollege", names(be1))] - be1[grep(":fa.educHigh", names(be1))])
+
+ODDScollEduc = round(exp(be1[grep(":fa.educCollege", names(be1))] - be1[grep(":fa.educHigh", names(be1))]),2)
+ODDScollEduc = as.data.frame(ODDScollEduc)
+ODDScollEduc <- data.frame(ses1 = odds1, ses2 = odds2, ses3 = odds3, ses4 = odds4)
+print(ODDShigherEduc)
+
+print(xtable(ODDScollEduc, digits = c(0, 1)), floating = FALSE)

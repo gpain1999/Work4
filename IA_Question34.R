@@ -46,7 +46,6 @@ summary(fitFinal)
 # for own interest: check exponentiated coefficients and CIs
 (OR_fitFinal <- round(exp(coef(fitFinal)), 2))
 (CI_fitFinal <- round(exp(confint(fitFinal)), 2))
-
 ##### *************************************************************************************** #####
 
 ### (iv) sesmed vs. fa.educ, fa.wrk and region by loglinear model
@@ -70,3 +69,4 @@ OR_fitLoglin_relevant <- OR_fitLoglin[grep("^sesmedOver med.:.+$",names(OR_fitLo
 OR_fitLoglin_relevant
 OR_fitFinal[-1]
 # we see that the estimated exponentiated coefficients are the same
+
