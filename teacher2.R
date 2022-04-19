@@ -190,7 +190,7 @@ qq5 <- as.data.frame(xtab5, responseName = "N")
 m1 <- glm(N ~ (sesmed + parents + foreign + fa.educ + mo.educ + region + 
                  fa.wrk + mo.wrk)^3, family = poisson, data = qq5)
 gof(m1)
-
+?gof
 
 ### Two-way interaction model
 mTwoWay <- glm(N ~ (sesmed + parents + foreign + fa.educ + mo.educ + region + 
@@ -198,7 +198,6 @@ mTwoWay <- glm(N ~ (sesmed + parents + foreign + fa.educ + mo.educ + region +
 #
 gof(mTwoWay)
 anova(mTwoWay, m1, test = "LR")        ### Some three-way interactions needed...
-
 
 ### Usual model building while starting from the three-way interaction model
 D1 <- drop1(m1, test = "LR")            ## takes some time, be patient...
