@@ -1,6 +1,6 @@
 ##question 2
 
-setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression Models/Work4")
+#setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression Models/Work4")
 #
 library("colorspace")
 library("xtable")
@@ -37,7 +37,6 @@ fit2 <- glm(N ~ (ses + fa.educ + region)^3, family = poisson, data = qq2)
 
 summary(fit2)
 
-
 ### Coefficients
 (ce2 <- coef(fit2))
 pv2 <- summary(fit2)$coefficients[, "Pr(>|z|)"]
@@ -48,8 +47,8 @@ pv2 <- summary(fit2)$coefficients[, "Pr(>|z|)"]
 #
 ## Region = Northeast (reference)
 ## ------------------------------
-(lorNE <- c(be2[grep("^ses[0-9]:fa.educHigh$",    names(be2))],
-            be2[grep("^ses[0-9]:fa.educCollege$", names(be2))]))
+(lorNE <- c(ce2[grep("^ses[0-9]:fa.educHigh$",    names(ce2))],
+            ce2[grep("^ses[0-9]:fa.educCollege$", names(ce2))]))
 (orNE <- exp(lorNE))
 (orNE <- matrix(round(orNE, 2), nrow = 3))
 rownames(orNE) <- paste("ses", 2:4, sep = "")
