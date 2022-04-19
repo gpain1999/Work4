@@ -1,6 +1,6 @@
 ### Initial operations
 ### ++++++++++++++++++++++++++++++++++++++++++++
-setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression Models/Work4")
+#setwd("C:/Users/guill/OneDrive/Documents/Charles_University/Advanced Regression Models/Work4")
 #
 library("colorspace")
 library("xtable")
@@ -12,7 +12,7 @@ print(load("AdvRegr_4_nels.RData"))
 ### ++++++++++++++++++++++++++++++++++++++++++++
 
 (tab1 <- with(nels, table(ses, fa.educ)))
-(ptab1 <- round(prop.table(xtab1, margin = 2) * 100, 2))
+(ptab1 <- round(prop.table(tab1, margin = 2) * 100, 2))
 
 
 #First observation : 
@@ -96,15 +96,15 @@ ce1[paste("ses", 2:4, ":fa.educCollege", sep = "")]
 #
 ### ses = 2
 (odds2 <- exp(ce1[paste("fa.educ", c("High", "College"), sep = "")] + 
-                be1[paste("ses2:fa.educ", c("High", "College"), sep = "")]))
+                ce1[paste("ses2:fa.educ", c("High", "College"), sep = "")]))
 #
 ### ses = 3
 (odds3 <- exp(ce1[paste("fa.educ", c("High", "College"), sep = "")] + 
-                be1[paste("ses3:fa.educ", c("High", "College"), sep = "")]))
+                ce1[paste("ses3:fa.educ", c("High", "College"), sep = "")]))
 #
 ### ses = 4
 (odds4 <- exp(ce1[paste("fa.educ", c("High", "College"), sep = "")] + 
-                be1[paste("ses4:fa.educ", c("High", "College"), sep = "")]))
+                ce1[paste("ses4:fa.educ", c("High", "College"), sep = "")]))
 
 #No values for Ellementary as it is present in the constant. 
 #These are coefficients for the transition from one statue to another.
@@ -114,8 +114,6 @@ ce1[paste("ses", 2:4, ":fa.educCollege", sep = "")]
 
 ### -----------------------------------------------------------------------------
 exp(ce1[grep(":fa.educ", names(ce1))])
-
-
 
 ### ------------------------------------------------------------------------------
 exp(ce1[grep(":fa.educCollege", names(ce1))] - ce1[grep(":fa.educHigh", names(ce1))])
