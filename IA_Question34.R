@@ -47,6 +47,8 @@ summary(fitFinal)
 (OR_fitFinal <- round(exp(coef(fitFinal)), 2))
 (CI_fitFinal <- round(exp(confint(fitFinal)), 2))
 ##### *************************************************************************************** #####
+CI_fitFinal <- as.data.frame(CI_fitFinal)
+print(xtable(CI_fitFinal, digits = c(0, 1, 1)), floating = FALSE)
 
 ### (iv) sesmed vs. fa.educ, fa.wrk and region by loglinear model
 ### ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -67,6 +69,10 @@ OR_fitLoglin <- round(exp(coef(fitLoglin)), 2)
 OR_fitLoglin_relevant <- OR_fitLoglin[grep("^sesmedOver med.:.+$",names(OR_fitLoglin))]
 # ! need to compare e.g. fa.educCollege:regionWest with sesmedOver med.:fa.educCollege:regionWest
 OR_fitLoglin_relevant
-OR_fitFinal[-1]
+
+Odds_ratio_question34 = cbind(round(exp(fitFinal$coef[-1]),2),OR_fitFinal[-1])
+Odds_ratio_question34 = as.data.frame(Odds_ratio_question34)
 # we see that the estimated exponentiated coefficients are the same
 
+colnames(Odds_ratio_question34) <- c("Question 3", "Question 4")
+print(xtable(Odds_ratio_question34, digits = c(0, 1, 1)), floating = FALSE)
