@@ -16,7 +16,17 @@ round(prop.table(with(nels, table(region, useNA = "ifany")))*100,2)
 
 ### Contingency table
 (tab2 <- with(nels, table(ses, fa.educ,region)))
+(tab21 <- with(nels, table(ses,region)))
+
 (ptab2 <- round(prop.table(tab2, margin = 2) * 100, 1))
+(ptab21 <- round(prop.table(tab21, margin = 2) * 100, 1))
+(ptab22 <- round(prop.table(tab21, margin = 1) * 100, 1))
+
+
+### Table in LaTeX 
+print(xtable(ptab21, digits = c(0, 1, 1, 1,1)), floating = FALSE)
+print(xtable(ptab22, digits = c(0, 1, 1, 1,1)), floating = FALSE)
+
 #dataset
 
 qq2 <- as.data.frame(tab2, responseName = "N")
