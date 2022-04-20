@@ -1,4 +1,4 @@
-setwd("C:/Unizeug/Übungen/CU_AdvRegressionModels/PS4")
+#setwd("C:/Unizeug/Übungen/CU_AdvRegressionModels/PS4")
 
 library("colorspace")
 library("xtable")
@@ -266,27 +266,13 @@ anova(m3, m1, test = "LRT")
 #m3 seems better
 #We can analyse some of its coefficients
 
-(coef <- round(coef(m2),2))
+(coef <- round(coef(m3),2))
+length(coef)
 
-### region = East
-coef[paste("region", c("Midwest","South","West"), sep = "")]
-(oddsEast <- round(exp(coef[paste("region",  c("Midwest","South","West"), sep = "")]),2))
-#
-### region = Midwest
-coef[paste("mo.educCollege", ":region", c("Midwest","South","West"), sep = "")]
-coef[paste("region", c("Midwest","South","West"), sep = "")]
-(oddsHigh <- round(exp(coef[paste("ses", 2:4, sep = "")] +coef[paste("region", c("Midwest","South","West"), ":fa.wrkNot_working", sep = "")]),2))
-oddsmMid
-#
-### fa.educ = College
-coef[paste("ses", 2:4, sep = "")]
-coef[paste("ses", 2:4, ":fa.educCollege", sep = "")]
-(oddsColl <- round(exp(coef[paste("ses", 2:4, sep = "")] + 
-                         coef[paste("ses", 2:4, ":fa.educCollege", sep = "")]),2))
-
-### All in one table
-ODDSbetterSES <- data.frame(Elementary = oddsElem, High = oddsHigh, 
-                            College = oddsColl)
-print(ODDSbetterSES)
-
-print(xtable(ODDSbetterSES, digits = c(0, 1, 1, 1)), floating = FALSE)
+library(tidyselect)
+library(tidyverse)
+sesmed<-str_detect(names(exp(coef)), "sesmed")
+mo_work<-str_detect(names(exp(coef)), "mo.wrk")
+fa_educ<-str_detect(names(exp(coef)), "fa.educ")
+exp(sum(coef[which(sesmed&mo_work)]))
+round(exp(coef[which(sesmed&mo_work&fa_educ)]),2)
