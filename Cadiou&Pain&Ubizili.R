@@ -239,3 +239,54 @@ colnames(Odds_ratio_question34) <- c("Question 3", "Question 4")
 print(xtable(Odds_ratio_question34, digits = c(0, 1, 1)), floating = FALSE)
 
 # (V) Final model 
+
+tab5 <- with(nels, table(sesmed, parents, foreign, fa.educ, mo.educ, region, 
+                         fa.wrk, mo.wrk))
+
+## Three-way interaction model
+qq5 <- as.data.frame(tab5, responseName = "N")
+m1 <- glm(N ~ (sesmed + parents + foreign + fa.educ + mo.educ + region + 
+                 fa.wrk + mo.wrk)^3, family = poisson, data = qq5)
+summary(m1)
+
+## Two-way interaction model
+m2 <- glm(N ~ (sesmed + parents + foreign + fa.educ + mo.educ + region + 
+                      fa.wrk + mo.wrk)^2, family = poisson, data = qq5)
+anova(m2, m1, test = "LR")
+#The three way interaction model seems better
+
+#We delete some interactions to have a reasonable number of parameters
+D1 <- drop1(m1, test = "LR")          
+(Drop1 <- attr(D1, "row.names")[-1][D1[["Pr(>Chi)"]][-1] > 0.3])
+
+m3 <- update(m1, paste(". ~ . - ", paste(Drop1, collapse = "-")))
+summary(m3)
+anova(m3, m1, test = "LRT")
+
+#m3 seems better
+#We can analyse some of its coefficients
+
+(coef <- round(coef(m2),2))
+
+### region = East
+coef[paste("region", c("Midwest","South","West"), sep = "")]
+(oddsEast <- round(exp(coef[paste("region",  c("Midwest","South","West"), sep = "")]),2))
+#
+### region = Midwest
+coef[paste("mo.educCollege", ":region", c("Midwest","South","West"), sep = "")]
+coef[paste("region", c("Midwest","South","West"), sep = "")]
+(oddsHigh <- round(exp(coef[paste("ses", 2:4, sep = "")] +coef[paste("region", c("Midwest","South","West"), ":fa.wrkNot_working", sep = "")]),2))
+oddsmMid
+#
+### fa.educ = College
+coef[paste("ses", 2:4, sep = "")]
+coef[paste("ses", 2:4, ":fa.educCollege", sep = "")]
+(oddsColl <- round(exp(coef[paste("ses", 2:4, sep = "")] + 
+                         coef[paste("ses", 2:4, ":fa.educCollege", sep = "")]),2))
+
+### All in one table
+ODDSbetterSES <- data.frame(Elementary = oddsElem, High = oddsHigh, 
+                            College = oddsColl)
+print(ODDSbetterSES)
+
+print(xtable(ODDSbetterSES, digits = c(0, 1, 1, 1)), floating = FALSE)

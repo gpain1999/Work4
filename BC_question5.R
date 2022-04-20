@@ -2,21 +2,21 @@
 ### ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 ### Table
-xtab5 <- with(nels, table(sesmed, parents, foreign, fa.educ, mo.educ, region, 
+tab5 <- with(nels, table(sesmed, parents, foreign, fa.educ, mo.educ, region, 
                           fa.wrk, mo.wrk))
-dim(xtab5)
+dim(tab5)
 
 
 ### Marginal counts
 ### Some exploration (do we have at least marginally reasonable counts?)
-margin.table(xtab5, margin = 1)
-margin.table(xtab5, margin = 2)
-margin.table(xtab5, margin = 3)
-margin.table(xtab5, margin = 4)
-margin.table(xtab5, margin = 5)
-margin.table(xtab5, margin = 6)
-margin.table(xtab5, margin = 7)
-margin.table(xtab5, margin = 8)
+margin.table(tab5, margin = 1)
+margin.table(tab5, margin = 2)
+margin.table(tab5, margin = 3)
+margin.table(tab5, margin = 4)
+margin.table(tab5, margin = 5)
+margin.table(tab5, margin = 6)
+margin.table(tab5, margin = 7)
+margin.table(tab5, margin = 8)
 
 
 ### Some pairwise dependencies
