@@ -24,7 +24,6 @@ plot(ses ~ fa.educ, data = nels, col = rainbow_hcl(4),
      main = "SES by father's education")
   ### LaTeX-Code for table
 print(xtable(ptab1, digits = c(0, 1, 1, 1)), floating = FALSE)
-print(xtable(xtab1, digits = c(0, 1, 1, 1)), floating = FALSE)
 
   ### Data frame for loglinear modelling
 qq1 <- as.data.frame(xtab1, responseName = "N")
@@ -117,3 +116,4 @@ ODDScollEduc <- data.frame(ses1 = odds1, ses2 = odds2, ses3 = odds3, ses4 = odds
 print(ODDShigherEduc)
 
 print(xtable(ODDScollEduc, digits = c(0, 1)), floating = FALSE)
+

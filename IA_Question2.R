@@ -25,13 +25,7 @@ summary(fit2)
 drop1(fit2, test = "LRT")
     # Can't drop the three-way-interaction term as it is significant
     # continue to look into Odds Ratios
-
-(be2 <- coef(fit2))
-coef_exp_2 <- round(exp(be2),2)[-1]
-coef_exp_2 # exponentiated coefficients
-pv2 <- summary(fit2)$coefficients[, "Pr(>|z|)"]
-(pv2 <- round(pv2, 3))
-
+be2 = coef(fit2)
 ### Some odds ratios
 
     ### Odds ratios (odds on higher ses compared to ses = 1) when comparing higher 
@@ -49,7 +43,7 @@ pv2 <- summary(fit2)$coefficients[, "Pr(>|z|)"]
 rownames(orNE) <- paste("ses", 2:4, sep = "")
 colnames(orNE) <- paste("educ", c("High", "College"))
 
-print(orNE)
+print(orNE) 
 
 ## Region = Midwest
 ## ------------------------------
@@ -66,6 +60,7 @@ colnames(orMW) <- paste("educ", c("High", "College"))
 print(orMW) # TO BE REPORTED
 
   #p-values
+pv2 <- summary(fit2)$coef[,4]
 (pvChangeMW <- pv2[grep("^ses[0-9]:fa.educ(College|High):regionMidwest",     
                         names(pv2))])
 
